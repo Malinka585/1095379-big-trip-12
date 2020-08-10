@@ -363,13 +363,13 @@ const tripEventsListElements = tripDaysElement.querySelectorAll(`.trip-events__l
 const tripEventsListElement = tripDaysElement.querySelector(`.trip-events__list`);
 
 for (let j = 0; j < tripEventsListElements.length; j++) {
-  const listElements = tripEventsListElements[j]
+  const listElements = tripEventsListElements[j];
   for (let y = 0; y < ITEM_COUNT; y++) {
-    render(listElements, createPointItemTemplate(), `beforeend`)
+    render(listElements, createPointItemTemplate(), `beforeend`);
   }
 }
 
 const tripEventsItemElement = tripEventsListElement.querySelector(`.trip-events__item`);
 
 tripEventsItemElement.querySelector(`.event`).remove();
-render(tripEventsItemElement, createFormEditTemplate(), `beforeend`)
+render(tripEventsItemElement, createFormEditTemplate(), `beforeend`);
