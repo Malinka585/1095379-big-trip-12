@@ -1,7 +1,9 @@
+import {isEventExpired, isEventComing} from "../utils.js";
+
 const tripToFilterMap = {
   everything: (points) => points.length,
-  future: (points) => points.filter((point) => point.eventStartDate).length,
-  past: (points) => points.filter((point) => point.eventEndDate).length
+  future: (points) => points.filter((point) => isEventComing(point.currentDate)).length,
+  past: (points) => points.filter((point) => isEventExpired(point.currentDate)).length
 };
 
 export const generateFilter = (points) => {

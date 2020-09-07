@@ -44,7 +44,7 @@ render(tripFormSortElement, createTripPointDaysTemplate(), `beforeend`);
 const tripDaysElement = tripFormSortElement.querySelector(`.trip-days`);
 
 for (let i = 0; i < POINT_COUNT; i++) {
-  render(tripDaysElement, createTripPointTemplate(wayPoint[i]), `beforeend`);
+  render(tripDaysElement, createTripPointTemplate(wayPoint[i], i), `beforeend`);
 }
 
 const tripEventsListElements = tripDaysElement.querySelectorAll(`.trip-events__list`);
@@ -53,7 +53,7 @@ const tripEventsListElement = tripDaysElement.querySelector(`.trip-events__list`
 for (let j = 0; j < tripEventsListElements.length; j++) {
   const listElements = tripEventsListElements[j];
   for (let y = 0; y < wayPoint[j].events.length; y++) {
-    let eventsArray = wayPoint[j].events;
+    const eventsArray = wayPoint[j].events;
     render(listElements, createPointItemTemplate(eventsArray[y]), `beforeend`);
   }
 }

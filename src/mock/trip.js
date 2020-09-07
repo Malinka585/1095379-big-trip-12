@@ -57,37 +57,22 @@ const generateDate = () => {
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
   const currentDate = new Date();
 
-  // currentDate.setHours(23, 59, 59, 999);
-
   currentDate.setDate(currentDate.getDate() + daysGap);
 
   return new Date(currentDate);
 };
 
 const generateStartTime = (date) => {
-  // const maxDaysGap = 2;
   const hoursGap = getRandomInteger(-MAX_HOURS_GAP, MAX_HOURS_GAP);
-  // const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
   const currentDate = date;
 
   currentDate.setHours(currentDate.getHours() + hoursGap);
-  // currentDate.setDate(currentDate.getDate() + daysGap);
 
   return new Date(currentDate);
 };
 
 const generateEndTime = (startTime) => {
   return new Date(startTime.getTime() + getRandomInteger(1, MAX_HOURS_GAP) * 60 * 60 * 1000);
-};
-
-export const isEventExpired = (dueDate) => {
-  const currentDate = new Date();
-  return currentDate.getTime() > dueDate.getTime();
-};
-
-export const isEventComing = (dueDate) => {
-  const currentDate = new Date();
-  return currentDate.getTime() <= dueDate.getTime();
 };
 
 const generateEvent = (tripDate) => {
@@ -108,7 +93,6 @@ const generateEvent = (tripDate) => {
   };
 };
 
-
 export const generateWayPoint = () => {
   const tripDate = generateDate();
   const events = [];
@@ -118,10 +102,7 @@ export const generateWayPoint = () => {
   }
 
   return {
-    dayNumber: getRandomInteger(1, 3),
     currentDate: tripDate,
-    events,
-    future: isEventComing(tripDate),
-    past: isEventExpired(tripDate)
+    events
   };
 };

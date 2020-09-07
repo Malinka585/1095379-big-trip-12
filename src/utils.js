@@ -9,9 +9,19 @@ export const getRandomArray = (array, count) => {
   const randomArray = [];
 
   for (let i = 0; i <= getRandomInteger(1, count); i++) {
-    let randomIndex = getRandomInteger(0, array.length - 1);
+    const randomIndex = getRandomInteger(0, array.length - 1);
     randomArray.push(array[randomIndex]);
   }
 
   return randomArray;
+};
+
+export const isEventExpired = (dueDate) => {
+  const currentDate = new Date();
+  return currentDate.getTime() > dueDate.getTime();
+};
+
+export const isEventComing = (dueDate) => {
+  const currentDate = new Date();
+  return currentDate.getTime() <= dueDate.getTime();
 };
