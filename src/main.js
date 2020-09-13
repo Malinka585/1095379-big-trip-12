@@ -38,6 +38,11 @@ const renderPoint = (listElement, point) => {
     replaceFormToPoint();
   });
 
+  editFormComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceFormToPoint();
+  });
+
   render(listElement, pointComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
