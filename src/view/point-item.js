@@ -1,5 +1,7 @@
-export const createPointItemTemplate = (point) => {
-  const {typePoint, destination, eventStartDate, eventEndDate, eventDuratioun, offers} = point;
+import {createElement} from "../utils.js";
+
+const createPointItemTemplate = (point) => {
+  const {typePoint, destination, eventStartDate, eventEndDate, cost, eventDuratioun, offers} = point;
 
   const humanizeDate = (date) => {
     return date.toLocaleString(`en-US`, {hour12: false, hour: `numeric`, minute: `numeric`});
@@ -42,7 +44,7 @@ export const createPointItemTemplate = (point) => {
         </div>
 
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">20</span>
+          &euro;&nbsp;<span class="event__price-value">${cost}</span>
         </p>
 
         <h4 class="visually-hidden">Offers:</h4>
@@ -55,3 +57,26 @@ export const createPointItemTemplate = (point) => {
     </li>`
   );
 };
+
+export default class PointItem {
+  constructor(points) {
+    this.points = points;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPointItemTemplate(this.points);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

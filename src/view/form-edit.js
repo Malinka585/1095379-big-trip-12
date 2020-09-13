@@ -1,4 +1,6 @@
-export const createFormEditTemplate = (form) => {
+import {createElement} from "../utils.js";
+
+const createFormEditTemplate = (form) => {
   const {eventStartDate, eventEndDate, cost, offers} = form;
 
   const dateByDataTime = (date) => {
@@ -156,3 +158,27 @@ export const createFormEditTemplate = (form) => {
     </form>`
   );
 };
+
+export default class FormEdit {
+  constructor(forms) {
+    this._forms = forms;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFormEditTemplate(this._forms);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
