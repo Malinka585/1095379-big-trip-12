@@ -11,16 +11,6 @@ const createTripFiltersTemplate = (filter) => {
   );
 };
 
-const createFormTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems.map((filter) => createTripFiltersTemplate(filter)).join(``);
-
-  return (
-    `<form class="trip-filters" action="#" method="get">
-    ${filterItemsTemplate}
-    </form>`
-  );
-};
-
 export default class Form {
   constructor(filters) {
     this._filters = filters;
@@ -28,7 +18,13 @@ export default class Form {
   }
 
   getTemplate() {
-    return createFormTemplate(this._filters);
+    const filterItemsTemplate = this._filters.map((filter) => createTripFiltersTemplate(filter)).join(``);
+
+    return (
+      `<form class="trip-filters" action="#" method="get">
+    ${filterItemsTemplate}
+    </form>`
+    );
   }
 
   getElement() {

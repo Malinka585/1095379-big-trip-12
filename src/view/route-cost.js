@@ -1,8 +1,13 @@
 import {createElement} from "../utils.js";
 
-const createRouteCostTemplate = () => {
-  return (
-    `<section class="trip-main__trip-info  trip-info">
+export default class RouteCost {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return (
+      `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
         <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
 
@@ -13,16 +18,7 @@ const createRouteCostTemplate = () => {
         Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
       </p>
     </section>`
-  );
-};
-
-export default class RouteCost {
-  constructor() {
-    this._element = null;
-  }
-
-  getTemplate() {
-    return createRouteCostTemplate();
+    );
   }
 
   getElement() {

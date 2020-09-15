@@ -68,8 +68,7 @@ for (let i = 0; i < POINT_COUNT; i++) {
   render(tripPointDay.getElement(), tripPoints.getElement(), RenderPosition.BEFOREEND);
   const tripEventsList = new TripEventsListView();
   render(tripPoints.getElement(), tripEventsList.getElement(), RenderPosition.BEFOREEND);
-  for (let y = 0; y < wayPoint[y].events.length; y++) {
-    const eventsArray = wayPoint[y].events;
-    renderPoint(tripEventsList.getElement(), eventsArray[y]);
+  for (const event of wayPoint[i].events) {
+    renderPoint(tripEventsList.getElement(), event);
   }
 }
