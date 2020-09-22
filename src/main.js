@@ -6,6 +6,7 @@ import FilterButtonView from "./view/filter-button.js";
 import FormEditView from "./view/form-edit.js";
 import TripPointDaysView from "./view/trip-point-days.js";
 import TripPointView from "./view/trip-point.js";
+import NoPointView from "./view/no-point.js";
 import TripEventsListView from "./view/trip-events-list.js";
 import PointItemView from "./view/point-item.js";
 import {generateWayPoint} from "./mock/trip.js";
@@ -30,8 +31,17 @@ const renderPoint = (listElement, point) => {
     listElement.replaceChild(pointComponent.getElement(), editFormComponent.getElement());
   };
 
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToPoint();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
   pointComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
     replacePointToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   editFormComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
@@ -41,6 +51,7 @@ const renderPoint = (listElement, point) => {
   editFormComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     replaceFormToPoint();
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
   render(listElement, pointComponent.getElement(), RenderPosition.BEFOREEND);
@@ -50,25 +61,33 @@ const tripMainElement = document.querySelector(`.trip-main`);
 const tripFormSortElement = document.querySelector(`.trip-events`);
 const tripMainControlsElement = tripMainElement.querySelector(`.trip-main__trip-controls`);
 
-const formFilter = new FormView(filters);
 render(tripMainElement, new RouteCostView().getElement(), RenderPosition.AFTERBEGIN);
+
+const formFilter = new FormView(filters);
 render(tripMainControlsElement, new TripMenuView().getElement(), RenderPosition.BEFOREEND);
 render(tripMainControlsElement, formFilter.getElement(), RenderPosition.BEFOREEND);
 render(formFilter.getElement(), new FilterButtonView().getElement(), RenderPosition.BEFOREEND);
 
+const renderBoard = (boardContainer, boardWayPoint) => {
 
-const formTripSort = new FormTripSortView();
-render(tripFormSortElement, formTripSort.getElement(), RenderPosition.BEFOREEND);
-const tripPointDay = new TripPointDaysView();
+  const formTripSort = new FormTripSortView();
+  render(boardContainer, formTripSort.getElement(), RenderPosition.BEFOREEND);
 
-render(tripFormSortElement, tripPointDay.getElement(), RenderPosition.BEFOREEND);
+  const tripPointDay = new TripPointDaysView();
 
-for (let i = 0; i < POINT_COUNT; i++) {
-  const tripPoints = new TripPointView(wayPoint[i], i);
-  render(tripPointDay.getElement(), tripPoints.getElement(), RenderPosition.BEFOREEND);
-  const tripEventsList = new TripEventsListView();
-  render(tripPoints.getElement(), tripEventsList.getElement(), RenderPosition.BEFOREEND);
-  for (const event of wayPoint[i].events) {
-    renderPoint(tripEventsList.getElement(), event);
+  render(boardContainer, tripPointDay.getElement(), RenderPosition.BEFOREEND);
+  if (boardWayPoint.length === 0) {
+    render(boardContainer, new NoPointView().getElement(), RenderPosition.BEFOREEND);
+  } else {
+    for (let i = 0; i < POINT_COUNT; i++) {
+      const tripPoints = new TripPointView(boardWayPoint[i], i);
+      render(tripPointDay.getElement(), tripPoints.getElement(), RenderPosition.BEFOREEND);
+      const tripEventsList = new TripEventsListView();
+      render(tripPoints.getElement(), tripEventsList.getElement(), RenderPosition.BEFOREEND);
+      for (const event of boardWayPoint[i].events) {
+        renderPoint(tripEventsList.getElement(), event);
+      }
+    }
   }
-}
+};
+renderBoard(tripFormSortElement, wayPoint);
